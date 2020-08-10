@@ -15,6 +15,7 @@ namespace ElVegetarioFurio.Models
         public string Name { get; set; }
         public string Description { get; set; }
 
+        [Range(0,25)]
         public double Price { get; set; }
 
         public int CategoryId { get; set; }

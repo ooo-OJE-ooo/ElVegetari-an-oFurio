@@ -43,7 +43,7 @@
     "Id": 6,
     "Name": "Patatas bravas",
     "Description": "Gebratene Kartoffelst\u00FCcke in pikanter Sauce",
-    "Price": 3.99,
+    "Price": 4.99,
     "CategoryId": 3,
     "Category": null
   },
@@ -173,14 +173,6 @@
     "Description": "Kaffee",
     "Price": 1.59,
     "CategoryId": 6,
-    "Category": null
-  },
-  {
-    "Id": 23,
-    "Name": "Salat nach Deutscher Art",
-    "Description": "Salat der dringenst Weg muss",
-    "Price": 9.49,
-    "CategoryId": 1,
     "Category": null
   }
 ]

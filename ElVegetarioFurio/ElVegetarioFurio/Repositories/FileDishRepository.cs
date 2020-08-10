@@ -48,7 +48,16 @@ namespace ElVegetarioFurio.Repositories
 
         public void DeleteDish(int id)
         {
-            throw new NotImplementedException();
+            // Alle Daten aufrufen ausser die, die ich löschen möchte
+            var dishes = GetDishes().Where(x => x.Id != id);
+
+            var options = new JsonSerializerOptions
+            {
+                // Mit Einrückung
+                WriteIndented = true
+            };
+            var json = System.Text.Json.JsonSerializer.Serialize(dishes, options);
+            File.WriteAllText(_path, json);
         }
 
         public Dish GetDishById(int id)
@@ -75,7 +84,21 @@ namespace ElVegetarioFurio.Repositories
 
         public Dish UpdateDish(Dish dish)
         {
-            throw new NotImplementedException();
+            var dishes = GetDishes().ToList();
+            var dishToUpdate = dishes.SingleOrDefault(x => x.Id == dish.Id);
+            dishToUpdate.Name = dish.Name;
+            dishToUpdate.Price = dish.Price;
+            dishToUpdate.Description = dish.Description;
+            dishToUpdate.CategoryId = dish.CategoryId;
+
+            var options = new JsonSerializerOptions
+            {
+                // Mit Einrückung
+                WriteIndented = true
+            };
+            var json = System.Text.Json.JsonSerializer.Serialize(dishes, options);
+            File.WriteAllText(_path, json);
+            return dishToUpdate;
         }
     }
 }

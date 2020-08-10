@@ -19,6 +19,7 @@ namespace ElVegetarioFurio.Controllers
             _repository = repository;
         }
 
+        // Methode
         [HttpGet]
         public IEnumerable<Dish> Get()
         {
@@ -49,6 +50,39 @@ namespace ElVegetarioFurio.Controllers
             // Status 201 = CreatedAtAction
             // Neues anonymes Objekt anlegen um die ID zu übergeben
             return CreatedAtAction("Get", new { id = result.Id }, result);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] Dish dish)
+        {
+            if(id != dish.Id)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if(_repository.GetDishById(id) == null)
+            {
+                return NotFound();
+            }
+            var result = _repository.UpdateDish(dish);
+            return Ok(result);
+        }
+   
+        [HttpDelete("{id}")]
+
+        public IActionResult Delete(int id)
+        {
+            if(_repository.GetDishById(id) == null)
+            {
+                return NotFound();
+            }
+
+            _repository.DeleteDish(id);
+            return NoContent();
         }
     }
 }
