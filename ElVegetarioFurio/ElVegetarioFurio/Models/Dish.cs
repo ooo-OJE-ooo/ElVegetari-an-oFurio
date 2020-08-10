@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ElVegetarioFurio.Models
@@ -12,7 +13,10 @@ namespace ElVegetarioFurio.Models
         public int Id { get; set; }
 
         [Required]
+        [MaxLength(100)]
         public string Name { get; set; }
+
+        [MaxLength(250)]
         public string Description { get; set; }
 
         [Range(0,25)]
@@ -20,6 +24,7 @@ namespace ElVegetarioFurio.Models
 
         public int CategoryId { get; set; }
 
+        [JsonIgnore]
         public Category Category { get; set; }
     }
 }

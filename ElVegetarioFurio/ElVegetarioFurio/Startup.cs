@@ -1,8 +1,10 @@
+using ElVegetarioFurio.Models;
 using ElVegetarioFurio.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,12 +23,19 @@ namespace ElVegetarioFurio
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<VegiContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("VegiContext")));
+
             services.AddControllersWithViews();
 
             // FileDishRepository
-            services.AddScoped<IDishRepository, FileDishRepository>();
+            // services.AddScoped<IDishRepository, FileDishRepository>();
             // FileCategoryRepository
-            services.AddScoped<ICategoryRepository, FileCategoryRepository>();
+            // services.AddScoped<ICategoryRepository, FileCategoryRepository>();
+            // DishRepository
+            services.AddScoped<IDishRepository, EfDishRepository>();
+            // EfCategoryRepository
+            services.AddScoped<ICategoryRepository, EfCategoryRepository>();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
