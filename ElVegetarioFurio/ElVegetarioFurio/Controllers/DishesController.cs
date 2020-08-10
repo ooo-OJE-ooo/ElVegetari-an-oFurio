@@ -1,8 +1,10 @@
 ﻿using ElVegetarioFurio.Models;
 using ElVegetarioFurio.Repositories;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,10 +15,12 @@ namespace ElVegetarioFurio.Controllers
     public class DishesController : ControllerBase
     {
         private readonly IDishRepository _repository;
+        private readonly string _path;
 
-        public DishesController(IDishRepository repository)
+        public DishesController(IDishRepository repository, IWebHostEnvironment env)
         {
             _repository = repository;
+            _path = Path.Combine(env.ContentRootPath, "data", "images", "dishes");
         }
 
         // Methode
@@ -83,6 +87,20 @@ namespace ElVegetarioFurio.Controllers
 
             _repository.DeleteDish(id);
             return NoContent();
+        }
+    
+        [HttpGet("{id}/image")]
+        
+        public IActionResult Image(int id)
+        {
+            // Die Bilder sind nach den Id der Gerichte benannt
+            var file = System.IO.Path.Combine(_path, $"{id}.jpg");
+            if (System.IO.File.Exists(file))
+            {
+                var bytes = System.IO.File.ReadAllBytes(file);
+                return File(bytes, "image/jpeg");
+            }
+            return NotFound();
         }
     }
 }

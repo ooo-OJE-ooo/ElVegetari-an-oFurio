@@ -25,6 +25,8 @@ namespace ElVegetarioFurio
 
             // FileDishRepository
             services.AddScoped<IDishRepository, FileDishRepository>();
+            // FileCategoryRepository
+            services.AddScoped<ICategoryRepository, FileCategoryRepository>();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
