@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 
 namespace ElVegetarioFurio.Repositories
@@ -19,7 +21,29 @@ namespace ElVegetarioFurio.Repositories
         }
         public Dish CreateDish(Dish dish)
         {
-            throw new NotImplementedException();
+            // Ausgabe in Liste, wenn keine vorhanden wird eine erstellt
+            var dishes = GetDishes()?.ToList() ?? new List<Dish>();
+
+            if(dishes.Count == 0)
+            {
+                dish.Id = 1;
+            }
+            else
+            {
+                // Dient nur zu Demo zwecken, bei gleichzeiten Zugriffen kann es hier zu problemen kommen.
+                dish.Id = dishes.Max(x => x.Id) + 1;
+            }
+
+            dishes.Add(dish);
+
+            var options = new JsonSerializerOptions
+            {
+                // Mit Einrückung
+                WriteIndented = true
+            };
+            var json = System.Text.Json.JsonSerializer.Serialize(dishes, options);
+            File.WriteAllText(_path, json);
+            return dish;
         }
 
         public void DeleteDish(int id)
@@ -29,7 +53,8 @@ namespace ElVegetarioFurio.Repositories
 
         public Dish GetDishById(int id)
         {
-            throw new NotImplementedException();
+            // Da es NULL sein könnte mit ? operator
+            return GetDishes()?.SingleOrDefault(x => x.Id == id);
         }
 
         public IEnumerable<Dish> GetDishes()
