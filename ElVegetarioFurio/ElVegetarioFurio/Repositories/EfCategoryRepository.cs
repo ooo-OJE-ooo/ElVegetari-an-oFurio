@@ -44,6 +44,7 @@ namespace ElVegetarioFurio.Repositories
         public Category GetCategoryById(int id)
         {
             var category = _vegiContext.Categories.Find(id);
+            _vegiContext.Entry(category).Collection(x => x.Dishes).Load();
             return category;
         }
 

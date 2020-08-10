@@ -1,0 +1,10 @@
+<mat-card class="category-card" *ngFor="let category of categories">
+  <mat-card-header>
+    <mat-card-title>{{category.name}}</mat-card-title>
+    <mat-card-subtitle>{{category.description}}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image src="/api/categories/{{category.id}}/image" alt="Foto von {{category.name}}">
+  <mat-card-actions>
+    <button mat-raised-button [routerLink]="['/categories', category.id, 'dishes']" color="primary">Details</button>
+  </mat-card-actions>
+</mat-card>
